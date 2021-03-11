@@ -1,9 +1,5 @@
 export default class SearchInfo {
-    constructor() {
+  constructor() {}
 
-    }
-
-    render() {
-        
-    }
+  render() {}
 }
