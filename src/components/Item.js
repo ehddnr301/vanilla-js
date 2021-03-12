@@ -6,7 +6,9 @@ export default class Item {
     this.render();
   }
   render() {
-    const { url, temperament, origin } = this.data;
+    // const { url, temperament, origin } = this.data;
+    const { url } = this.data;
+    const { temperament, origin } = this.data.breeds[0];
 
     const itemWrapper = document.createElement("div");
     itemWrapper.className = "wrapper";
