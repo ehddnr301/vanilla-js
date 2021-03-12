@@ -26,7 +26,7 @@ body {
 .item-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-self: flex-start;
+  justify-content: flex-start;
   margin: 10px;
 }
 
@@ -43,10 +43,15 @@ body {
   width: 100%;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .modal {
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
 
+  top: 0;
   width: 100vw;
   height: 100vh;
 
