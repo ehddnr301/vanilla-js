@@ -35,6 +35,6 @@ export default class SearchInfo {
     info.appendChild(infoDescription);
     modal.appendChild(info);
 
-    this.$target.appenChild(modal);
+    this.$target.appendChild(modal);
   }
 }
