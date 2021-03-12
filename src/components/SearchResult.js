@@ -1,16 +1,20 @@
 import Item from "./Item.js";
 
 export default class SearchResult {
-  constructor($target, data) {
+  constructor($target) {
     this.$target = $target;
-    this.data = data;
+    this.data = [];
 
     this.render();
   }
 
+  updateData(data) {
+    this.data = data;
+    this.render();
+  }
+
   render() {
-    const bottom = document.createElement("div");
-    bottom.className = "bottom";
+    this.$target.innerHtml = "";
 
     const itemContainer = document.createElement("div");
     itemContainer.className = "item-container";
@@ -20,12 +24,9 @@ export default class SearchResult {
 
     this.data.forEach((cat) => {
       new Item(itemWrapper, cat);
-      //   const item = new Item(this.$target, cat);
-      //   itemWrapper.appendChild(item);
     });
 
     itemContainer.appendChild(itemWrapper);
-    bottom.appendChild(itemContainer);
-    this.$target.appendChild(bottom);
+    this.$target.appendChild(itemContainer);
   }
 }

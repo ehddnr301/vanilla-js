@@ -12,8 +12,14 @@ export default class App {
 
     const searchBar = new SearchBar(top, (keyword) => {
       api.fetchImage(keyword).then((data) => {
-        // * searchResult 를 업데이트하는 로직 필요
+        // * searchResult 를 업데이트하는 로직
+        searchResult.updateData(data);
       });
     });
+
+    const searchResult = new SearchResult(bottom);
+
+    document.body.appendChild(top);
+    document.body.appendChild(bottom);
   }
 }
