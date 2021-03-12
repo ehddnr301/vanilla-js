@@ -24,3 +24,14 @@
 - searchResult 에는 data를 받는 updateData method가 존재.
   - 초기 빈 data를 받은 data로 업데이트 하고 render를 다시 실행시킴
 - render method는 innerHTML = '' 로 기존의 것을 없애고 현재 data를 가지고 new Item 만듬
+
+## api 호출 수정
+
+- 기존에는 keyword를 받아서 그냥 그 결과를 리턴해주었음
+- 수정된 로직
+  - 키워드를 기반으로 품종을 검색해서 품종 아이디들을 리턴
+  - 품종 아이디 마다 breed_id를 기반으로 검색
+  - 검색결과를 Promise all로 결과를 처리
+  - 빈 result array 만들기
+  - 결과 array를 concat으로 업데이트
+  - 리턴
