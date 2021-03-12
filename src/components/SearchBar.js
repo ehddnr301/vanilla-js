@@ -1,10 +1,12 @@
 export default class SearchBar {
-  constructor($target) {
-    (this.$target = $target), this.render();
+  constructor($target, onSearch) {
+    this.$target = $target;
+    this.onSearch = onSearch;
+
+    this.render();
   }
   render() {
-    const top = document.createElement("div");
-    top.className = "top";
+    this.$target.innerHTML = "";
 
     const wrapper = document.createElement("div");
     wrapper.className = "wrapper";
@@ -13,9 +15,15 @@ export default class SearchBar {
     searchInput.placeholder = "고양이를 검색하세요";
     searchInput.className = "search-input";
 
-    wrapper.appendChild(searchInput);
-    top.appendChild(wrapper);
+    searchInput.addEventListener("keyup", (e) => {
+      if (e.key == 13) {
+        const keyword = searchInput.value;
+        this.onSearch(keyword);
+      }
+    });
 
-    this.$target.appendChild(top);
+    wrapper.appendChild(searchInput);
+
+    this.$target.appendChild(wrapper);
   }
 }

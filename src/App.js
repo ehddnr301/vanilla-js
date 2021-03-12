@@ -4,21 +4,16 @@ import SearchResult from "./components/SearchResult.js";
 
 export default class App {
   constructor() {
-    console.log("App is created!");
+    const top = document.createElement("div");
+    top.className = "top";
 
-    const body = document.body;
+    const bottom = document.createElement("div");
+    bottom.className = "bottom";
 
-    const searchBar = new SearchBar(body);
-    const searchResult = new SearchResult(body, []);
-
-    const data = api.fetchImage("no");
-    const data2 = api.fetchImageAll();
-
-    data.then((cats) => {
-      console.log(cats);
-    });
-    data2.then((cats) => {
-      console.log(cats);
+    const searchBar = new SearchBar(top, (keyword) => {
+      api.fetchImage(keyword).then((data) => {
+        // * searchResult 를 업데이트하는 로직 필요
+      });
     });
   }
 }
