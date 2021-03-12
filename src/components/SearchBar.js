@@ -16,7 +16,7 @@ export default class SearchBar {
     searchInput.className = "search-input";
 
     searchInput.addEventListener("keyup", (e) => {
-      if (e.key == 13) {
+      if (e.key === "Enter") {
         const keyword = searchInput.value;
         this.onSearch(keyword);
       }
