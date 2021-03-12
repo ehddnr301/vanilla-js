@@ -1,6 +1,7 @@
 import { api } from "./api/catApi.js";
 import SearchBar from "./components/SearchBar.js";
 import SearchResult from "./components/SearchResult.js";
+import SearchInfo from "./components/SearchInfo.js";
 
 export default class App {
   constructor() {
@@ -26,6 +27,7 @@ export default class App {
     );
 
     const searchResult = new SearchResult(bottom);
+    const serarchInfo = new SearchInfo(document.body, []);
 
     document.body.appendChild(top);
     document.body.appendChild(bottom);
