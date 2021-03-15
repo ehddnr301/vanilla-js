@@ -1,55 +1,81 @@
 export default class SearchInfo {
-  constructor($target, data) {
+  constructor($target) {
     this.$target = $target;
+    this.data = null;
+
+    this.render();
+  }
+
+  updateData(data) {
     this.data = data;
 
     this.render();
   }
 
+  onClose(target) {
+    target.classList.toggle("hidden");
+    target.data = null;
+  }
+
   render() {
-    // const { url, temperament, origin } = this.data;
+    if (this.data) {
+      const url = this.data.url;
+      const { temperament, origin, name } =
+        this.data.breeds.length > 0
+          ? this.data.breeds[0]
+          : { temperament: "정보없음", origin: "정보없음", name: "정보없음" };
 
-    const modal = document.createElement("div");
-    modal.className = "modal";
+      this.$target.innerHTML = "";
 
-    const info = document.createElement("div");
-    info.className = "info";
+      const info = document.createElement("div");
+      info.className = "info";
 
-    const infoHeader = document.createElement("div");
-    infoHeader.className = "info-header";
+      const overlay = document.createElement("div");
+      overlay.className = "overlay";
 
-    const infoTitle = document.createElement("h4");
-    infoTitle.className = "info-title";
-    infoTitle.innerText = "노르웨이 숲";
+      const infoHeader = document.createElement("div");
+      infoHeader.className = "info-header";
 
-    const closeBtn = document.createElement("button");
-    closeBtn.className = "close=btn";
-    closeBtn.innerText = "X";
+      const infoTitle = document.createElement("h4");
+      infoTitle.className = "info-title";
+      infoTitle.innerText = name;
 
-    const infoImg = document.createElement("img");
-    infoImg.className = "info-img";
-    // infoImg.src = url;
+      const closeBtn = document.createElement("button");
+      closeBtn.className = "close-btn";
+      closeBtn.innerText = "X";
 
-    const infoDescription = document.createElement("div");
-    infoDescription.className = "info-description";
+      const infoImg = document.createElement("img");
+      infoImg.className = "info-img";
+      infoImg.src = url;
 
-    const infoTemperament = document.createElement("p");
-    infoTemperament.className = "info-temperament";
-    // infoTemperament.innerText = temperament;
+      const infoDescription = document.createElement("div");
+      infoDescription.className = "info-description";
 
-    const infoOrigin = document.createElement("p");
-    infoOrigin.className = "info-origin";
-    // infoOrigin.innerText = origin;
+      const infoTemperament = document.createElement("p");
+      infoTemperament.className = "info-temperament";
+      infoTemperament.innerText = temperament;
 
-    infoHeader.appendChild(infoTitle);
-    infoHeader.appendChild(closeBtn);
-    infoDescription.appendChild(infoTemperament);
-    infoDescription.appendChild(infoOrigin);
-    info.appendChild(infoHeader);
-    info.appendChild(infoImg);
-    info.appendChild(infoDescription);
-    modal.appendChild(info);
+      const infoOrigin = document.createElement("p");
+      infoOrigin.className = "info-origin";
+      infoOrigin.innerText = origin;
 
-    this.$target.appendChild(modal);
+      closeBtn.addEventListener("click", () => {
+        this.onClose(this.$target);
+      });
+      overlay.addEventListener("click", () => {
+        this.onClose(this.$target);
+      });
+
+      infoHeader.appendChild(infoTitle);
+      infoHeader.appendChild(closeBtn);
+      infoDescription.appendChild(infoTemperament);
+      infoDescription.appendChild(infoOrigin);
+      info.appendChild(infoHeader);
+      info.appendChild(infoImg);
+      info.appendChild(infoDescription);
+
+      this.$target.appendChild(overlay);
+      this.$target.appendChild(info);
+    }
   }
 }

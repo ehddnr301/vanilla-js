@@ -11,6 +11,10 @@ export default class App {
     const bottom = document.createElement("div");
     bottom.className = "bottom";
 
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.classList.add("hidden");
+
     const searchBar = new SearchBar(
       top,
       (keyword) => {
@@ -26,10 +30,15 @@ export default class App {
       }
     );
 
-    const searchResult = new SearchResult(bottom);
+    const searchResult = new SearchResult(bottom, (target) => {
+      serarchInfo.updateData(target.data);
+      modal.classList.toggle("hidden");
+    });
+
     const serarchInfo = new SearchInfo(document.body, []);
 
     document.body.appendChild(top);
     document.body.appendChild(bottom);
+    document.body.appendChild(modal);
   }
 }

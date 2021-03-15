@@ -1,18 +1,17 @@
 export default class Item {
-  constructor($target, data) {
+  constructor($target, data, onClick) {
     this.$target = $target;
+    this.onClick = onClick;
     this.data = data;
 
     this.render();
   }
   render() {
-    // const { url, temperament, origin } = this.data;
-    console.log(this.data);
     const { url } = this.data;
-    const { temperament, origin } =
+    const { name, origin } =
       this.data.breeds.length > 0
         ? this.data.breeds[0]
-        : { temperament: "정보없음", origin: "정보없음" };
+        : { name: "정보없음", origin: "정보없음" };
 
     const itemWrapper = document.createElement("div");
     itemWrapper.className = "wrapper";
@@ -27,15 +26,20 @@ export default class Item {
     const itemDescription = document.createElement("div");
     itemDescription.className = "item-description";
 
-    const itemTemperament = document.createElement("p");
-    itemTemperament.className = "item-temperament";
-    itemTemperament.innerText = temperament;
+    const itemName = document.createElement("p");
+    itemName.className = "item-name";
+    itemName.innerText = name;
 
     const itemOrigin = document.createElement("p");
     itemOrigin.className = "item-origin";
     itemOrigin.innerText = origin;
 
-    itemDescription.appendChild(itemTemperament);
+    itemWrapper.addEventListener("click", () => {
+      this.onClick(this);
+      console.log(this);
+    });
+
+    itemDescription.appendChild(itemName);
     itemDescription.appendChild(itemOrigin);
     item.appendChild(itemImg);
     item.appendChild(itemDescription);
