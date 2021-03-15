@@ -16,13 +16,14 @@ export default class SearchResult {
 
   render() {
     if (this.data) {
-      this.$target.innerHtml = "";
+      this.$target.innerHTML = "";
 
       const itemContainer = document.createElement("div");
       itemContainer.className = "item-container";
 
       const itemWrapper = document.createElement("div");
-      itemWrapper.classname = "item-wrapper";
+      itemWrapper.className = "item-wrapper";
+      console.log(itemContainer, itemWrapper);
 
       this.data.forEach((cat) => {
         new Item(itemWrapper, cat, this.onClick);

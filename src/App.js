@@ -31,11 +31,11 @@ export default class App {
     );
 
     const searchResult = new SearchResult(bottom, (target) => {
-      serarchInfo.updateData(target.data);
+      searchInfo.updateData(target.data);
       modal.classList.toggle("hidden");
     });
 
-    const serarchInfo = new SearchInfo(document.body, []);
+    const searchInfo = new SearchInfo(modal);
 
     document.body.appendChild(top);
     document.body.appendChild(bottom);
