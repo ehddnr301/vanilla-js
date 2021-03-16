@@ -1,6 +1,7 @@
 import SearchingSection from "./components/SearchingSection.js";
 import { api } from "./api/theCatAPI.js";
 import ResultsSections from "./components/ResultsSection.js";
+import DetailModal from "./components/DetailModal.js";
 
 export default class App {
   constructor($target) {
@@ -21,8 +22,19 @@ export default class App {
     const resultsSection = new ResultsSections({
       $target,
       onClick: (data) => {
-        // * 모달창 띄우기
+        detailModal.setState(data);
       },
     });
+
+    const detailModal = new DetailModal({
+      $target,
+    });
+
+    this.focusOnSearchInput();
+  }
+
+  focusOnSearchInput() {
+    const searchInput = document.querySelector(".search-input");
+    searchInput.focus();
   }
 }

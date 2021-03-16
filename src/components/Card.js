@@ -10,6 +10,10 @@ export default class Card {
     this.render();
   }
 
+  getDetail() {
+    this.onClick(this.data);
+  }
+
   render() {
     const url = this.data.url;
     const { name, origin } =
@@ -34,6 +38,7 @@ export default class Card {
 
     this.card.addEventListener("click", () => {
       // * 모달창 띄우기
+      this.getDetail();
     });
 
     cardInfo.appendChild(catName);
