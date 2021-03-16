@@ -9,26 +9,22 @@ const request = async (url) => {
   }
 };
 
-export const api = {
-  fetchImage: async (keyword) => {
+const api = {
+  fetchCats: async (keyword) => {
     const breeds = (await api.searchBreedByName(keyword)).map((breed) => {
       return breed.id;
     });
-    const requests = breeds.map((breed) => {
-      return request(
-        `${API_ENDPOINT}/images/search?limit=50&breed_ids=${breed}`
-      );
-    });
+    const requests = breeds.map((id) =>
+      request(`${API_ENDPOINT}/images/search?limit=50&breed_ids=${id}`)
+    );
 
     return Promise.all(requests).then((responses) => {
       let result = [];
-      responses.forEach((response) => {
-        result = result.concat(response);
-      });
+      responses.forEach((response) => (result = result.concat(response)));
       return result;
     });
   },
-  fetchImageAll: () => {
+  fetchRandomCats: () => {
     return request(`${API_ENDPOINT}/images/search?limit=50`);
   },
   searchBreedByName: (keyword) => {
