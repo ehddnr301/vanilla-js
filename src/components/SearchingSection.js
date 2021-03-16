@@ -17,7 +17,7 @@ export default class SearchingSection {
 
   searchByKeyword(event) {
     if (event.key === "Enter") {
-      const keyword = document.querySelector("search-input").value;
+      const keyword = document.querySelector(".search-input").value;
       this.onSearch(keyword);
     }
   }
