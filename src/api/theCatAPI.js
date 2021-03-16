@@ -31,3 +31,5 @@ const api = {
     return request(`${API_ENDPOINT}/breeds/search?q=${keyword}`);
   },
 };
+
+export { api };
