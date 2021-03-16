@@ -3,7 +3,7 @@ export default class Card {
     this.onClick = onClick; // * 모달창 띄우기
     this.data = data;
     this.card = document.createElement("article");
-    this.care.className = "cat-card";
+    this.card.className = "cat-card";
 
     $target.appendChild(this.card);
 
