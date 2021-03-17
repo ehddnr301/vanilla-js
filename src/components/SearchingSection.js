@@ -2,6 +2,7 @@ export default class SearchingSection {
   constructor({ $target, onSearch, onRandom }) {
     this.onSearch = onSearch;
     this.onRandom = onRandom;
+    this.recent = [];
     this.section = document.createElement("section");
     this.section.className = "searching-section";
 
@@ -15,14 +16,24 @@ export default class SearchingSection {
     searchInput.value = "";
   }
 
-  searchByKeyword(event) {
-    if (event.key === "Enter") {
-      const keyword = document.querySelector(".search-input").value;
-      this.onSearch(keyword);
-    }
+  addRecentKeyword(keyword) {
+    if (this.recent.includes(keyword)) return;
+    if (this.recent.length === 5) this.recent.shift();
+
+    this.recent.push(keyword);
+    this.render();
+  }
+
+  searchByKeyword(keyword) {
+    if (keyword.length === 0) return;
+
+    this.addRecentKeyword(keyword);
+    this.onSearch(keyword);
   }
 
   render() {
+    this.section.innerHTML = "";
+
     const randomBtn = document.createElement("button");
     randomBtn.className = "random-btn";
     randomBtn.innerText = "🐱";
@@ -31,13 +42,35 @@ export default class SearchingSection {
     searchInput.className = "search-input";
     searchInput.placeholder = "고양이를 검색하세요.";
 
+    const wrapper = document.createElement("div");
+    wrapper.className = "search-input-wrapper";
+
+    const recentKeywords = document.createElement("div");
+    recentKeywords.className = "recent-keywords";
+
+    this.recent.map((keyword) => {
+      const link = document.createElement("span");
+      link.className = "keyword";
+      link.innerText = keyword;
+
+      link.addEventListener("click", () => {
+        this.searchByKeyword(keyword);
+      });
+
+      recentKeywords.appendChild(link);
+    });
+
     randomBtn.addEventListener("click", this.onRandom);
     searchInput.addEventListener("focus", this.deleteKeyword);
     searchInput.addEventListener("keyup", (event) => {
-      this.searchByKeyword(event);
+      if (event.key === "Enter") {
+        this.searchByKeyword(searchInput.value);
+      }
     });
 
+    wrapper.appendChild(searchInput);
+    wrapper.appendChild(recentKeywords);
     this.section.appendChild(randomBtn);
-    this.section.appendChild(searchInput);
+    this.section.appendChild(wrapper);
   }
 }

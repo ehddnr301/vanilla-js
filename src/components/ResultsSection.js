@@ -32,7 +32,7 @@ export default class ResultsSection {
       this.section.appendChild(cardContainer);
     } else {
       const noticeSection = document.createElement("section");
-      noticeSection.className = "noticeSection";
+      noticeSection.className = "notice-section";
 
       const notice = document.createElement("h2");
       notice.className = "notice";
