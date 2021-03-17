@@ -1,13 +1,15 @@
 import Card from "./Card.js";
 
 export default class ResultsSection {
-  constructor({ $target, onClick }) {
+  constructor({ $target, data, onClick }) {
     this.onClick = onClick;
-    this.data = null;
+    this.data = data;
     this.section = document.createElement("section");
     this.section.className = "results-section";
 
     $target.appendChild(this.section);
+
+    this.render();
   }
 
   setState(data) {

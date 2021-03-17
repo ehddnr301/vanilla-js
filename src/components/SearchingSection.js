@@ -1,8 +1,10 @@
+import { setItem } from "../util/sessionStorage.js";
+
 export default class SearchingSection {
-  constructor({ $target, onSearch, onRandom }) {
+  constructor({ $target, keywords, onSearch, onRandom }) {
     this.onSearch = onSearch;
     this.onRandom = onRandom;
-    this.recent = [];
+    this.recent = keywords;
     this.section = document.createElement("section");
     this.section.className = "searching-section";
 
@@ -21,6 +23,8 @@ export default class SearchingSection {
     if (this.recent.length === 5) this.recent.shift();
 
     this.recent.push(keyword);
+    setItem("keywords", this.recent);
+
     this.render();
   }
 
