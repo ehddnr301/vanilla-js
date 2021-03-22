@@ -5,6 +5,7 @@ import DetailModal from "./components/DetailModal.js";
 import Loading from "./components/Loading.js";
 import { getItem, setItem } from "./util/sessionStorage.js";
 import { lazyLoad } from "./util/lazyLoad.js";
+import Error from "./components/Error.js";
 
 export default class App {
   constructor($target) {
@@ -14,21 +15,29 @@ export default class App {
     const searchingSection = new SearchingSection({
       $target,
       keywords,
-      onSearch: (keyword) => {
+      onSearch: async (keyword) => {
         loading.toggleSpinner();
-        api.fetchCats(keyword).then((data) => {
+
+        const response = await api.fetchCats(keyword);
+        if (!response.isError) {
+          setItem("data", response.data);
+          resultsSection.setState(response.data);
           loading.toggleSpinner();
-          setItem("data", data);
-          resultsSection.setState(data);
-        });
+        } else {
+          error.setState(response.data);
+        }
       },
-      onRandom: () => {
+      onRandom: async () => {
         loading.toggleSpinner();
-        api.fetchRandomCats().then((data) => {
+
+        const response = await api.fetchRandomCats();
+        if (!response.isError) {
+          setItem("data", response.data);
+          resultsSection.setState(response.data);
           loading.toggleSpinner();
-          setItem("data", data);
-          resultsSection.setState(data);
-        });
+        } else {
+          error.setState(response.data);
+        }
       },
     });
 
@@ -38,16 +47,20 @@ export default class App {
       onClick: (data) => {
         detailModal.setState(data);
       },
-      onScroll: () => {
+      onScroll: async () => {
         loading.toggleSpinner();
-        api.fetchRandomCats().then((data) => {
-          loading.toggleSpinner();
 
+        const response = await api.fetchRandomCats();
+        if (!response.isError) {
           const beforeData = getItem("data");
-          const nextData = beforeData.concat(data);
+          const nextData = beforeData.concat(response.data);
+
           setItem("data", nextData);
           resultsSection.setState(nextData);
-        });
+          loading.toggleSpinner();
+        } else {
+          error.setState(response.data);
+        }
       },
     });
 
@@ -56,6 +69,10 @@ export default class App {
     });
 
     const loading = new Loading({
+      $target,
+    });
+
+    const error = new Error({
       $target,
     });
 

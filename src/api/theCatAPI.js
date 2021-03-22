@@ -1,34 +1,62 @@
-const API_ENDPOINT = "https://api.thecatapi.com/v1";
+const API_ENDPOINT = "https://api.thecatapi.com/v2";
 
 const request = async (url) => {
   try {
-    const result = await fetch(url);
-    return result.json();
+    const response = await fetch(url);
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      const errorData = await response.json();
+      throw errorData;
+    }
   } catch (e) {
-    console.warn(e);
+    throw {
+      message: e.message,
+      status: e.status,
+    };
   }
 };
 
 const api = {
   fetchCats: async (keyword) => {
-    const breeds = (await api.searchBreedByName(keyword)).map((breed) => {
-      return breed.id;
-    });
-    const requests = breeds.map((id) =>
-      request(`${API_ENDPOINT}/images/search?limit=20&breed_ids=${id}`)
-    );
+    try {
+      const breeds = await request(
+        `${API_ENDPOINT}/breeds/search?q=${keyword}`
+      );
+      const requests = breeds.map(async (breed) => {
+        return await request(
+          `${API_ENDPOINT}/images/search?limit=20&breed_ids=${breed.id}`
+        );
+      });
+      const responses = await Promise.all(requests);
+      const result = Array.prototype.concat.apply([], responses);
 
-    return Promise.all(requests).then((responses) => {
-      let result = [];
-      responses.forEach((response) => (result = result.concat(response)));
-      return result;
-    });
+      return {
+        isError: false,
+        data: result,
+      };
+    } catch (e) {
+      return {
+        isError: true,
+        data: e,
+      };
+    }
   },
-  fetchRandomCats: () => {
-    return request(`${API_ENDPOINT}/images/search?limit=20`);
-  },
-  searchBreedByName: (keyword) => {
-    return request(`${API_ENDPOINT}/breeds/search?q=${keyword}`);
+  fetchRandomCats: async () => {
+    try {
+      const result = await request(`${API_ENDPOINT}/images/search?limit=20`);
+      return {
+        isError: false,
+        data: result,
+      };
+    } catch (e) {
+      return {
+        isError: true,
+        data: e,
+      };
+    }
   },
 };
 
