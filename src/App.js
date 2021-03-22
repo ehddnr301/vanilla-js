@@ -38,6 +38,17 @@ export default class App {
       onClick: (data) => {
         detailModal.setState(data);
       },
+      onScroll: () => {
+        loading.toggleSpinner();
+        api.fetchRandomCats().then((data) => {
+          loading.toggleSpinner();
+
+          const beforeData = getItem("data");
+          const nextData = beforeData.concat(data);
+          setItem("data", nextData);
+          resultsSection.setState(nextData);
+        });
+      },
     });
 
     const detailModal = new DetailModal({
