@@ -11,6 +11,13 @@ export default class SearchingSection {
     $target.appendChild(this.section);
 
     this.render();
+
+    this.focusOnSearchInput();
+  }
+
+  focusOnSearchInput() {
+    const searchInput = document.querySelector(".search-input");
+    searchInput.focus();
   }
 
   deleteKeyword() {

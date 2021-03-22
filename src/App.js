@@ -59,12 +59,6 @@ export default class App {
       $target,
     });
 
-    this.focusOnSearchInput();
     lazyLoad();
-  }
-
-  focusOnSearchInput() {
-    const searchInput = document.querySelector(".search-input");
-    searchInput.focus();
   }
 }
