@@ -4,14 +4,11 @@ export default class Card {
     this.data = data;
     this.card = document.createElement("article");
     this.card.className = "cat-card";
+    this.card.dataset.id = data.id;
 
     $target.appendChild(this.card);
 
     this.render();
-  }
-
-  getDetail() {
-    this.onClick(this.data);
   }
 
   render() {
@@ -38,11 +35,6 @@ export default class Card {
     const catOrigin = document.createElement("p");
     catOrigin.className = "cat-origin";
     catOrigin.innerText = origin;
-
-    this.card.addEventListener("click", () => {
-      // * 모달창 띄우기
-      this.getDetail();
-    });
 
     cardInfo.appendChild(catName);
     cardInfo.appendChild(catOrigin);

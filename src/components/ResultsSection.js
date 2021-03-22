@@ -22,6 +22,11 @@ export default class ResultsSection {
     this.render();
   }
 
+  findCatById(id) {
+    const result = this.data.find((cat) => cat.id == id);
+    return result;
+  }
+
   render() {
     if (!this.data) return;
 
@@ -36,6 +41,18 @@ export default class ResultsSection {
           data: cat,
           onClick: this.onClick,
         });
+      });
+
+      cardContainer.addEventListener("click", (e) => {
+        const path = e.path;
+        const card = path.find((comp) => comp.className == "cat-card");
+
+        if (card) {
+          const id = card.dataset.id;
+          const catInfo = this.findCatById(id);
+
+          this.onClick(catInfo);
+        }
       });
 
       this.section.appendChild(cardContainer);
